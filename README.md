@@ -11,7 +11,7 @@ Next, setup the virtual environment and install dependencies with
 ```
 virtualenv venv -p python3.6
 source venv/bin/activate 
-pip install -r requirements 
+pip install -r requirements.txt
 ```
 
 # Running the experiments
