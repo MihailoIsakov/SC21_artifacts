@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt  
 import seaborn as sns
 
-from utils import data_loader, pipelines
+from utils import data_loader
 
 
 # Figure size in inches, font 
@@ -43,13 +43,11 @@ def prediction_results(X_train, y_train, X_test, y_test):
 
 
 def predict(split_time):
-    df, features = data_loader.get_dataset(
+    df, columns = data_loader.get_dataset(
         'data/darshan_theta_2017_2020.csv', 
         'POSIX', 
         min_job_volume=0
     )
-
-    columns = pipelines.POSIX_FEATURES 
 
     df_before = df[df.START_TIME <= split_time]
     df_after  = df[df.START_TIME >  split_time]

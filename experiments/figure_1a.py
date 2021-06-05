@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-from utils import pipelines, data_loader
+from utils import data_loader
 
 
 # Figure size in inches, font 

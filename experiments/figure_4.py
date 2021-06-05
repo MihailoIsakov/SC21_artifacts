@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import ptitprince as pt
 
-from utils import data_loader, pipelines
+from utils import data_loader
 
 
 # Figure size in inches, font 

@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import ptitprince as pt
 
-from utils import pipelines, data_loader
+from utils import data_loader
 
 
 # Figure size in inches, font 
@@ -101,7 +101,7 @@ def compare_methods():
         del df
 
         X_train_bsln, X_test_bsln, X_2020_bsln = df_train[features], df_test[features], df_2020[features]
-        y_train, y_test, y_2020 = df_train[target],   df_test[target],   df_2020[target]
+        y_train, y_test, y_2020 = df_train[target], df_test[target], df_2020[target]
 
         X_train_norm, X_test_norm, X_2020_norm =    \
             normalize_dataset(X_train_bsln.copy(), feature_norm), \
@@ -109,13 +109,10 @@ def compare_methods():
             normalize_dataset(X_2020_bsln.copy(), feature_norm)
 
         # Train models with and without normalized features 
-        print("Training normalized model")
         y_pred_train_norm, y_pred_test_norm, y_pred_2020_norm = \
             xgboost_prediction(X_train_norm, y_train, X_test_norm, X_2020_norm, **conf)
-        print("Training baseline model")
         y_pred_train_bsln, y_pred_test_bsln, y_pred_2020_bsln = \
             xgboost_prediction(X_train_bsln, y_train, X_test_bsln, X_2020_bsln, **conf)
-        print("Done training")
 
         results = pd.DataFrame({
             'error' : np.abs(np.concatenate([
@@ -126,7 +123,7 @@ def compare_methods():
                 y_2020 - y_pred_2020_bsln,
                 y_2020 - y_pred_2020_norm,
             ])),
-            'set' : ['train'] * y_train.shape[0] * 2 +  ['test'] * y_test.shape[0] * 2 + ['2020'] * y_2020.shape[0] * 2,
+            'set' : ['train'] * y_train.shape[0] * 2 + ['test'] * y_test.shape[0] * 2 + ['2020'] * y_2020.shape[0] * 2,
             'type': ['baseline'] * y_train.shape[0] + ['normalized'] * y_train.shape[0] + ['baseline'] * y_test.shape[0] + ['normalized'] * y_test.shape[0] + ['baseline'] * y_2020.shape[0] + ['normalized'] * y_2020.shape[0],
         })
 
