@@ -6,13 +6,9 @@ output is supposed to be a Pandas DataFrame.
 """
 import logging
 import glob
-import joblib
 import pandas as pd
 
 from . import pipelines
-
-
-memory = joblib.Memory(location='.cache', verbose=0)
 
 
 def load(paths, delimiter=","):
@@ -32,11 +28,12 @@ def load(paths, delimiter=","):
     return df
 
 
-@memory.cache
-def get_dataset(data_path, module, min_cluster_size=250, min_job_volume=10*1024**2):
+def get_dataset(data_path, module, min_job_volume=10*1024**2):
     df = load(glob.glob(data_path))  
 
-    df = pipelines.pipeline(df, module, min_job_volume=min_job_volume)
+    # The dataset is already preprocessed, so this line is commented out!
+    # df = pipelines.pipeline(df, module, min_job_volume=min_job_volume)
+    df = df[df.POSIX_BYTES_READ + df.POSIX_BYTES_WRITTEN > min_job_volume]
 
     feature_map = {
         "POSIX": pipelines.POSIX_FEATURES,
